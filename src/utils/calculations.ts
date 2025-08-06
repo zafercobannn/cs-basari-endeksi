@@ -97,12 +97,41 @@ export const calculateSuccessIndex = (
   // Başarı endeksine göre sırala (yüksekten düşüğe)
   calculatedData.sort((a, b) => b.successIndex - a.successIndex);
 
-  // Sıralama numaralarını ata
-  calculatedData.forEach((item, index) => {
-    item.rank = index + 1;
-  });
-
-  return calculatedData;
+  // Çağrı değerlendirme ortalaması 4.85'in altında olanları ilk 3'ten çıkar
+  const MIN_QUALITY_THRESHOLD = 4.85;
+  
+  // İlk 3'te olup 4.85 altında olanları bul
+  const lowQualityInTop3 = calculatedData
+    .slice(0, 3)
+    .filter(item => item.qualityEvaluation < MIN_QUALITY_THRESHOLD);
+  
+  if (lowQualityInTop3.length > 0) {
+    // Bu temsilcileri ilk 3'ten çıkar ve sona ekle
+    const highQualityTop3 = calculatedData
+      .filter(item => item.qualityEvaluation >= MIN_QUALITY_THRESHOLD)
+      .slice(0, 3);
+    
+    const restOfData = calculatedData
+      .filter(item => !highQualityTop3.includes(item))
+      .sort((a, b) => b.successIndex - a.successIndex);
+    
+    // Yeni sıralamayı oluştur
+    const newOrder = [...highQualityTop3, ...restOfData];
+    
+    // Sıralama numaralarını ata
+    newOrder.forEach((item, index) => {
+      item.rank = index + 1;
+    });
+    
+    return newOrder;
+  } else {
+    // Normal sıralama - Sıralama numaralarını ata
+    calculatedData.forEach((item, index) => {
+      item.rank = index + 1;
+    });
+    
+    return calculatedData;
+  }
 };
 
 /**
