@@ -71,9 +71,8 @@ export const calculateSuccessIndex = (
     const auditScorePercentage = item.auditScore / 100;
     const auditScoreNormalized = auditScorePercentage * weights.auditScore;
 
-    // CSAT puanı - 5 tam puan üzerinden hesapla
-    const csatScorePercentage = item.csatScore / 5;
-    const csatScoreNormalized = csatScorePercentage * weights.csatScore;
+    // CSAT puanı - 5 tam puan üzerinden 100'e normalize ederek hesapla
+    const csatScoreNormalized = (item.csatScore / 5) * weights.csatScore;
 
     // Toplam başarı endeksi (0-1 arası)
     const successIndex = callCountScore + callDurationScore + auditScoreNormalized + csatScoreNormalized;
@@ -98,8 +97,8 @@ export const calculateSuccessIndex = (
   calculatedData.sort((a, b) => b.successIndex - a.successIndex);
 
   // Kalite koşulları: Hem audit hem de çağrı değerlendirme ortalaması için minimum değerler
-  const MIN_QUALITY_THRESHOLD = 4.85; // Çağrı değerlendirme ortalaması
-  const MIN_AUDIT_THRESHOLD = 78;     // Audit puanı
+  const MIN_QUALITY_THRESHOLD = 4.85; // Çağrı değerlendirme ortalaması (5 üzerinden)
+  const MIN_AUDIT_THRESHOLD = 78;     // Audit puanı (100 üzerinden)
   
   // İlk 3'te olup koşulları sağlamayanları bul
   const lowQualityInTop3 = calculatedData
@@ -229,7 +228,7 @@ export const debugCalculation = (data: RepresentativeData[]): void => {
     const callCountScore = normalizeValue(item.callCount, minCallCount, maxCallCount) * 0.2;
     const callDurationScore = (1 - normalizeValue(item.callDuration, minCallDuration, maxCallDuration)) * 0.2;
     const auditScoreNormalized = normalizeValue(item.auditScore, minAuditScore, maxAuditScore) * 0.3;
-    const csatScoreNormalized = normalizeValue(item.csatScore, minCsatScore, maxCsatScore) * 0.3;
+    const csatScoreNormalized = (item.csatScore / 5) * 0.3; // 5 üzerinden 100'e normalize
     const successIndex = callCountScore + callDurationScore + auditScoreNormalized + csatScoreNormalized;
 
     console.log(`\n${item.name}:`);
