@@ -97,7 +97,7 @@ const SuccessIndexDashboard: React.FC<SuccessIndexDashboardProps> = ({ represent
             alt="İKAS Logo" 
             className="ikas-logo"
           />
-          <h1>{currentYear} {currentMonth} Customer Success Başarı Endeksi</h1>
+          <h1>2025 - Temmuz Customer Success Başarı Endeksi</h1>
         </div>
 
       </div>
