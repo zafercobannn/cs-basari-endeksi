@@ -261,7 +261,7 @@ const SuccessIndexDashboard: React.FC<SuccessIndexDashboardProps> = ({ represent
                 </td>
                 <td>
                   <div className="metric-score">
-                    <div className="metric-score-value">{item.callDuration} saniye</div>
+                    <div className="metric-score-value">{item.callDuration} sn</div>
                     <div className="metric-score-label">{getCallDurationLabel(item.callDuration, minCallDuration)}</div>
                   </div>
                 </td>
