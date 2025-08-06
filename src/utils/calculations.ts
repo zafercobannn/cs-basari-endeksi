@@ -97,26 +97,33 @@ export const calculateSuccessIndex = (
   // Başarı endeksine göre sırala (yüksekten düşüğe)
   calculatedData.sort((a, b) => b.successIndex - a.successIndex);
 
-  // Çağrı değerlendirme ortalaması 4.85'in altında olanları ilk 3'ten çıkar
-  const MIN_QUALITY_THRESHOLD = 4.85;
+  // Kalite koşulları: Hem audit hem de çağrı değerlendirme ortalaması için minimum değerler
+  const MIN_QUALITY_THRESHOLD = 4.85; // Çağrı değerlendirme ortalaması
+  const MIN_AUDIT_THRESHOLD = 78;     // Audit puanı
   
-  // İlk 3'te olup 4.85 altında olanları bul
+  // İlk 3'te olup koşulları sağlamayanları bul
   const lowQualityInTop3 = calculatedData
     .slice(0, 3)
-    .filter(item => item.qualityEvaluation < MIN_QUALITY_THRESHOLD);
+    .filter(item => 
+      item.qualityEvaluation < MIN_QUALITY_THRESHOLD || 
+      item.auditScore < MIN_AUDIT_THRESHOLD
+    );
   
   if (lowQualityInTop3.length > 0) {
-    // Bu temsilcileri ilk 3'ten çıkar ve sona ekle
-    const highQualityTop3 = calculatedData
-      .filter(item => item.qualityEvaluation >= MIN_QUALITY_THRESHOLD)
+    // Her iki koşulu da sağlayan temsilcileri ilk 3'e yerleştir
+    const qualifiedTop3 = calculatedData
+      .filter(item => 
+        item.qualityEvaluation >= MIN_QUALITY_THRESHOLD && 
+        item.auditScore >= MIN_AUDIT_THRESHOLD
+      )
       .slice(0, 3);
     
     const restOfData = calculatedData
-      .filter(item => !highQualityTop3.includes(item))
+      .filter(item => !qualifiedTop3.includes(item))
       .sort((a, b) => b.successIndex - a.successIndex);
     
     // Yeni sıralamayı oluştur
-    const newOrder = [...highQualityTop3, ...restOfData];
+    const newOrder = [...qualifiedTop3, ...restOfData];
     
     // Sıralama numaralarını ata
     newOrder.forEach((item, index) => {
