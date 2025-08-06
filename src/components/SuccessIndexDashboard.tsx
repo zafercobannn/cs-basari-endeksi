@@ -86,14 +86,12 @@ const SuccessIndexDashboard: React.FC<SuccessIndexDashboardProps> = ({ represent
 
   const getCallCountLabel = (count: number, maxCount: number): string => {
     if (count === maxCount) return 'En Yüksek';
-    const percentage = Math.round((count / maxCount) * 100);
-    return `${percentage}%`;
+    return '';
   };
 
   const getCallDurationLabel = (duration: number, minDuration: number): string => {
     if (duration === minDuration) return 'En Hızlı';
-    const percentage = Math.round(((minDuration / duration) * 100));
-    return `${percentage}%`;
+    return '';
   };
 
   const getCsatScoreLabel = (score: number): string => {
