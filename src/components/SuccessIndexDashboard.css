@@ -248,6 +248,25 @@
   opacity: 0.9;
 }
 
+/* Metric Score Styles */
+.metric-score {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.metric-score-value {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.metric-score-label {
+  font-size: 10px;
+  font-weight: 500;
+  opacity: 0.9;
+  color: #6b7280;
+}
+
 /* Footer Notes */
 .footer-notes {
   background: #f8f9fa;

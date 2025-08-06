@@ -29,6 +29,15 @@ const SuccessIndexDashboard: React.FC<SuccessIndexDashboardProps> = ({ represent
     return calculateTeamStats(representatives);
   }, [representatives]);
 
+  // Min/max değerleri hesapla
+  const maxCallCount = useMemo(() => {
+    return Math.max(...calculatedData.map(item => item.callCount));
+  }, [calculatedData]);
+
+  const minCallDuration = useMemo(() => {
+    return Math.min(...calculatedData.map(item => item.callDuration));
+  }, [calculatedData]);
+
 
 
   const getRankColor = (rank: number): string => {
@@ -72,6 +81,26 @@ const SuccessIndexDashboard: React.FC<SuccessIndexDashboardProps> = ({ represent
     if (score >= 90) return 'Çok İyi';
     if (score >= 80) return 'İyi';
     if (score >= 70) return 'Orta';
+    return 'Geliştirilmeli';
+  };
+
+  const getCallCountLabel = (count: number, maxCount: number): string => {
+    if (count === maxCount) return 'En Yüksek';
+    const percentage = Math.round((count / maxCount) * 100);
+    return `${percentage}%`;
+  };
+
+  const getCallDurationLabel = (duration: number, minDuration: number): string => {
+    if (duration === minDuration) return 'En Hızlı';
+    const percentage = Math.round(((minDuration / duration) * 100));
+    return `${percentage}%`;
+  };
+
+  const getCsatScoreLabel = (score: number): string => {
+    if (score >= 4.8) return 'Mükemmel';
+    if (score >= 4.5) return 'Çok İyi';
+    if (score >= 4.0) return 'İyi';
+    if (score >= 3.5) return 'Orta';
     return 'Geliştirilmeli';
   };
 
@@ -218,8 +247,18 @@ const SuccessIndexDashboard: React.FC<SuccessIndexDashboardProps> = ({ represent
                     </div>
                   </div>
                 </td>
-                <td>{item.callCount} adet</td>
-                <td>{item.callDuration} saniye</td>
+                <td>
+                  <div className="metric-score">
+                    <div className="metric-score-value">{item.callCount} adet</div>
+                    <div className="metric-score-label">{getCallCountLabel(item.callCount, maxCallCount)}</div>
+                  </div>
+                </td>
+                <td>
+                  <div className="metric-score">
+                    <div className="metric-score-value">{item.callDuration} saniye</div>
+                    <div className="metric-score-label">{getCallDurationLabel(item.callDuration, minCallDuration)}</div>
+                  </div>
+                </td>
                 <td>
                   <div 
                     className="audit-score"
@@ -229,7 +268,12 @@ const SuccessIndexDashboard: React.FC<SuccessIndexDashboardProps> = ({ represent
                     <div className="audit-score-label">{getAuditScoreLabel(item.auditScore)}</div>
                   </div>
                 </td>
-                <td>{item.surveyResult.toFixed(1)}/5</td>
+                <td>
+                  <div className="metric-score">
+                    <div className="metric-score-value">{item.surveyResult.toFixed(1)}/5</div>
+                    <div className="metric-score-label">{getCsatScoreLabel(item.surveyResult)}</div>
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>
