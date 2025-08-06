@@ -267,6 +267,32 @@
   color: #6b7280;
 }
 
+/* CSAT Score Styles */
+.csat-score {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  min-width: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.csat-score-value {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.csat-score-label {
+  font-size: 10px;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
 /* Footer Notes */
 .footer-notes {
   background: #f8f9fa;

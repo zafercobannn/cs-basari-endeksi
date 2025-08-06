@@ -102,6 +102,14 @@ const SuccessIndexDashboard: React.FC<SuccessIndexDashboardProps> = ({ represent
     return 'Geliştirilmeli';
   };
 
+  const getCsatScoreColor = (score: number): string => {
+    if (score >= 4.8) return '#059669'; // Koyu yeşil - Mükemmel
+    if (score >= 4.5) return '#10B981'; // Yeşil - Çok İyi
+    if (score >= 4.0) return '#D97706'; // Turuncu - İyi
+    if (score >= 3.5) return '#F59E0B'; // Açık turuncu - Orta
+    return '#DC2626'; // Koyu kırmızı - Geliştirilmeli
+  };
+
 
 
   const handleRowClick = (representative: CalculatedRepresentative) => {
@@ -267,9 +275,12 @@ const SuccessIndexDashboard: React.FC<SuccessIndexDashboardProps> = ({ represent
                   </div>
                 </td>
                 <td>
-                  <div className="metric-score">
-                    <div className="metric-score-value">{item.surveyResult.toFixed(1)}/5</div>
-                    <div className="metric-score-label">{getCsatScoreLabel(item.surveyResult)}</div>
+                  <div 
+                    className="csat-score"
+                    style={{ backgroundColor: getCsatScoreColor(item.surveyResult) }}
+                  >
+                    <div className="csat-score-value">{item.surveyResult.toFixed(1)}/5</div>
+                    <div className="csat-score-label">{getCsatScoreLabel(item.surveyResult)}</div>
                   </div>
                 </td>
               </tr>
