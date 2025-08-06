@@ -67,6 +67,14 @@ const SuccessIndexDashboard: React.FC<SuccessIndexDashboardProps> = ({ represent
     return '#DC2626'; // Koyu kırmızı
   };
 
+  const getAuditScoreLabel = (score: number): string => {
+    if (score === 100) return 'Mükemmel';
+    if (score >= 90) return 'Çok İyi';
+    if (score >= 80) return 'İyi';
+    if (score >= 70) return 'Orta';
+    return 'Geliştirilmeli';
+  };
+
 
 
   const handleRowClick = (representative: CalculatedRepresentative) => {
@@ -217,7 +225,8 @@ const SuccessIndexDashboard: React.FC<SuccessIndexDashboardProps> = ({ represent
                     className="audit-score"
                     style={{ backgroundColor: getAuditScoreColor(item.auditScore) }}
                   >
-                    {item.auditScore.toFixed(1)}/100
+                    <div className="audit-score-value">{item.auditScore.toFixed(1)}/100</div>
+                    <div className="audit-score-label">{getAuditScoreLabel(item.auditScore)}</div>
                   </div>
                 </td>
                 <td>{item.surveyResult.toFixed(1)}/5</td>

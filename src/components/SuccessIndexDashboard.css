@@ -232,6 +232,20 @@
   font-size: 14px;
   text-align: center;
   min-width: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.audit-score-value {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.audit-score-label {
+  font-size: 10px;
+  font-weight: 500;
+  opacity: 0.9;
 }
 
 /* Footer Notes */
